@@ -4,6 +4,7 @@ import GatePass from "../../service/BAL/GatePass";
 import "../Pages/Css/Sidebars.scss";
 import { useHistory } from "react-router-dom";
 import { GrView, GrEdit } from "react-icons/gr";
+
 const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
   const [searchText, setSearchText] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
