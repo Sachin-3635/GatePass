@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.7",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "gate-pass",
+    "libraryId": "32edb291-fcf1-4056-abd5-e65eb6cb502b",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "GatePass",
+    "solutionShortDescription": "GatePass description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

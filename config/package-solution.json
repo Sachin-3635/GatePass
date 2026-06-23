@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "gate-pass-client-side-solution",
+    "id": "32edb291-fcf1-4056-abd5-e65eb6cb502b",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "GatePass description"
+      },
+      "longDescription": {
+        "default": "GatePass description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "gate-pass Feature",
+        "description": "The feature that activates elements of the gate-pass solution.",
+        "id": "76404cbd-f2f7-48a9-afe6-475dd743e670",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/gate-pass.sppkg"
+  }
+}
