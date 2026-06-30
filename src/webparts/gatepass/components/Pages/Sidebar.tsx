@@ -61,7 +61,7 @@ const Sidebar: React.FC<IGatepassProps> = (props) => {
                 : "nav-link"
             }
           >
-            Requester Dashboard
+            Requestor Dashboard
           </Link>
         </li>
 

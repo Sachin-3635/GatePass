@@ -4,6 +4,7 @@ import GatePass from "../../service/BAL/GatePass";
 import "../Pages/Css/Sidebars.scss";
 import { useHistory } from "react-router-dom";
 import { GrView, GrEdit } from "react-icons/gr";
+
 const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
   const [searchText, setSearchText] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -25,6 +26,7 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
     return requests
       .filter(
         (item) =>
+          item.Status === "Pending For Approver" &&
           item.CurrentApprover?.Id === currentUserId
       )
       .sort((a, b) => b.Id - a.Id);
