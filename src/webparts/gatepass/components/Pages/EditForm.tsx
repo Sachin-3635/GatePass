@@ -23,10 +23,10 @@ const EditForm: React.FC<IGatepassProps> = (props) => {
   const history = useHistory();
   const [workflow, setWorkflow] = React.useState<any[]>([]);
   const [supportingFiles, setSupportingFiles] = React.useState<File[]>([]);
-const [uploadedFiles, setUploadedFiles] = React.useState<any[]>([]);
+  const [uploadedFiles, setUploadedFiles] = React.useState<any[]>([]);
   // const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSubmitLoading, setIsSubmitLoading] = React.useState(false);
-const [isDraftLoading, setIsDraftLoading] = React.useState(false);
+  const [isDraftLoading, setIsDraftLoading] = React.useState(false);
 
   const [header, setHeader] = React.useState<any>({
     EmployeeName: "",
@@ -47,12 +47,12 @@ const [isDraftLoading, setIsDraftLoading] = React.useState(false);
   const [uom, setUom] = React.useState("");
   const [returnable, setReturnable] = React.useState("");
   const [remarks, setRemarks] = React.useState("");
-  
-  const [approverDetails, setApproverDetails] =React.useState<IApproverDetails[]>(
+
+  const [approverDetails, setApproverDetails] = React.useState<IApproverDetails[]>(
     [],
   );
-    const [ApproveType, setApproveType] = React.useState<any[]>([]);
-  
+  const [ApproveType, setApproveType] = React.useState<any[]>([]);
+
   const generateRows = (count: number) => {
     return Array.from({ length: count }, (_, i) => ({
       sr: i + 1,
@@ -147,18 +147,18 @@ const [isDraftLoading, setIsDraftLoading] = React.useState(false);
     setItems(formatted);
     const sp = await SPCRUDOPS();
 
-const docs = await sp.getData(
-  "SupportingDocs",
-  "Id,FileLeafRef,FileRef,GatePassID",
-  "",
-  `GatePassID eq '${id}'`,
-  { column: "Id", isAscending: false },
-  props
-);
+    const docs = await sp.getData(
+      "SupportingDocs",
+      "Id,FileLeafRef,FileRef,GatePassID",
+      "",
+      `GatePassID eq '${id}'`,
+      { column: "Id", isAscending: false },
+      props
+    );
 
-console.log("Supporting Docs:", docs);
+    console.log("Supporting Docs:", docs);
 
-setUploadedFiles(docs);
+    setUploadedFiles(docs);
   };
   const addRow = () => {
     setItems([
@@ -181,24 +181,24 @@ setUploadedFiles(docs);
     setItems(data);
   };
   async function loadApproverMatricstype() {
-      try {
-        const spCrudOps = await SPCRUDOPS();
-        const amData = await spCrudOps.getData(
-          "ApproveMatrics",
-          "Id,CurrentApprover/Id,CurrentApprover/Title,Role,Status,Level",
-          "CurrentApprover",
-          "Status eq 'Active'",
-          { column: "ID", isAscending: true },
-          props,
-        );
-  
-        console.log("LC Type Data:", amData);
-        setApproveType(amData);
-      } catch (err) {
-        console.error("Error loading customers:", err);
-      }
+    try {
+      const spCrudOps = await SPCRUDOPS();
+      const amData = await spCrudOps.getData(
+        "ApproveMatrics",
+        "Id,CurrentApprover/Id,CurrentApprover/Title,Role,Status,Level",
+        "CurrentApprover",
+        "Status eq 'Active'",
+        { column: "ID", isAscending: true },
+        props,
+      );
+
+      console.log("LC Type Data:", amData);
+      setApproveType(amData);
+    } catch (err) {
+      console.error("Error loading customers:", err);
     }
-   React.useEffect(() => {
+  }
+  React.useEffect(() => {
     if (
       ApproveType.length > 0 &&
       header.reportingManagerId > 0
@@ -208,39 +208,39 @@ setUploadedFiles(docs);
   }, [ApproveType, header]);
 
 
-const getFinalApproverMatrix = () => {
-  if (!ApproveType || ApproveType.length === 0) return;
+  const getFinalApproverMatrix = () => {
+    if (!ApproveType || ApproveType.length === 0) return;
 
-  const baseApprovers: any[] = [];
-  const matrixApprovers: any[] = [];
+    const baseApprovers: any[] = [];
+    const matrixApprovers: any[] = [];
 
- 
-   baseApprovers.push({
-        Id: header.reportingManagerId,
-        Name: header.reportingManager,
-        Role: "RM",
-        Level: 1,
-        Status: "Pending",
-      });
-       ApproveType.forEach((item: any) => {
+
+    baseApprovers.push({
+      Id: header.reportingManagerId,
+      Name: header.reportingManager,
+      Role: "RM",
+      Level: 1,
+      Status: "Pending",
+    });
+    ApproveType.forEach((item: any) => {
       matrixApprovers.push({
         Id: item.CurrentApprover?.Id || 0,
         Name: item.CurrentApprover?.Title || "",
         Role: item.Role,
-        Level: item.Level +1,
+        Level: item.Level + 1,
         Status: "Waiting",
       });
-    
-  });
 
-  const fullFlow = [...baseApprovers, ...matrixApprovers].sort(
-    (a, b) => a.Level - b.Level
-  );
+    });
 
-  setApproverDetails(fullFlow);
+    const fullFlow = [...baseApprovers, ...matrixApprovers].sort(
+      (a, b) => a.Level - b.Level
+    );
 
-  console.log("Approver Flow:", fullFlow);
-};
+    setApproverDetails(fullFlow);
+
+    console.log("Approver Flow:", fullFlow);
+  };
   // const handleUpdate = async () => {
   //   try {
   //     if (!id) return;
@@ -377,7 +377,7 @@ const getFinalApproverMatrix = () => {
 
       const gateService = GatePass();
       const childService = AuthorisedSignatories();
-   const allApproversJson = JSON.stringify(approverDetails);
+      const allApproversJson = JSON.stringify(approverDetails);
       const payload = {
         EmployeeName: header.EmployeeName,
         Department: header.department,
@@ -390,74 +390,74 @@ const getFinalApproverMatrix = () => {
         NoBox: Number(itemsPerBox),
         GatePassReturnable: returnable,
         Remarks: remarks,
-        Status: "Pending For Approver",
+        Status: "Pending For Approval",
         WFH: JSON.stringify(updatedWFH),
-          ApproverMatrics: allApproversJson
+        ApproverMatrics: allApproversJson
       };
 
       await gateService.updateRequest(Number(id), payload, props);
 
-const sp = await SPCRUDOPS();
+      const sp = await SPCRUDOPS();
 
-// Step 1: Get existing docs
-const oldDocs = await sp.getData(
-  "SupportingDocs",
-  "Id,FileLeafRef,FileRef,GatePassID",
-  "",
-  `GatePassID eq '${id}'`,
-  { column: "Id", isAscending: false },
-  props
-);
-
-// Step 2: Delete old files
-if (Array.isArray(oldDocs) && oldDocs.length > 0) {
-  for (const doc of oldDocs) {
-    try {
-      if (doc?.FileRef) {
-        await sp.deleteFile(doc.FileRef, props);
-      }
-    } catch (err) {
-      console.error("Error deleting doc:", doc, err);
-    }
-  }
-}
-
-// Step 3: Upload new files WITH timestamp
-if (supportingFiles?.length > 0) {
-  const folderUrl = "/sites/NBCGatePass/SupportingDocs";
-
-  for (const file of supportingFiles) {
-    try {
-      const now = new Date();
-      const timestamp = now.toISOString().replace(/[:.]/g, "-");
-
-      const dotIndex = file.name.lastIndexOf(".");
-      const baseName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
-      const extension = dotIndex !== -1 ? file.name.substring(dotIndex) : "";
-
-      const newFileName = `${baseName}_${timestamp}${extension}`;
-
-      const renamedFile = new File([file], newFileName, {
-        type: file.type,
-      });
-
-      const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
-
-      const item = await uploadRes.file.getItem();
-
-      await sp.updateData(
+      // Step 1: Get existing docs
+      const oldDocs = await sp.getData(
         "SupportingDocs",
-        item.Id,
-        {
-          GatePassID: String(id),
-        },
+        "Id,FileLeafRef,FileRef,GatePassID",
+        "",
+        `GatePassID eq '${id}'`,
+        { column: "Id", isAscending: false },
         props
       );
-    } catch (err) {
-      console.error("Upload error:", file.name, err);
-    }
-  }
-}
+
+      // Step 2: Delete old files
+      if (Array.isArray(oldDocs) && oldDocs.length > 0) {
+        for (const doc of oldDocs) {
+          try {
+            if (doc?.FileRef) {
+              await sp.deleteFile(doc.FileRef, props);
+            }
+          } catch (err) {
+            console.error("Error deleting doc:", doc, err);
+          }
+        }
+      }
+
+      // Step 3: Upload new files WITH timestamp
+      if (supportingFiles?.length > 0) {
+        const folderUrl = "/sites/NBCGatePass/SupportingDocs";
+
+        for (const file of supportingFiles) {
+          try {
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:.]/g, "-");
+
+            const dotIndex = file.name.lastIndexOf(".");
+            const baseName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
+            const extension = dotIndex !== -1 ? file.name.substring(dotIndex) : "";
+
+            const newFileName = `${baseName}_${timestamp}${extension}`;
+
+            const renamedFile = new File([file], newFileName, {
+              type: file.type,
+            });
+
+            const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
+
+            const item = await uploadRes.file.getItem();
+
+            await sp.updateData(
+              "SupportingDocs",
+              item.Id,
+              {
+                GatePassID: String(id),
+              },
+              props
+            );
+          } catch (err) {
+            console.error("Upload error:", file.name, err);
+          }
+        }
+      }
       const oldItems = await childService.getAuthorisedByGatePassId(
         Number(id),
         props,
@@ -499,7 +499,7 @@ if (supportingFiles?.length > 0) {
 
       const gatePassService = GatePass();
       const childService = AuthorisedSignatories();
-   const allApproversJson = JSON.stringify(approverDetails);
+      const allApproversJson = JSON.stringify(approverDetails);
       const payload: IGatePass = {
         EmployeeName: header.EmployeeName,
         Department: header.department,
@@ -515,75 +515,75 @@ if (supportingFiles?.length > 0) {
         GatePassReturnable: returnable,
         Remarks: remarks,
         Status: "Draft",
-          // WFH: JSON.stringify(workflowHistory),
-                ApproverMatrics: allApproversJson,
+        // WFH: JSON.stringify(workflowHistory),
+        ApproverMatrics: allApproversJson,
       };
 
       // Update existing request
       await gatePassService.updateRequest(Number(id), payload, props);
       const sp = await SPCRUDOPS();
 
-// Step 1: get old docs
-const oldDocs = await sp.getData(
-  "SupportingDocs",
-  "Id,FileLeafRef,FileRef,GatePassID",
-  "",
-  `GatePassID eq '${id}'`,
-  { column: "Id", isAscending: false },
-  props
-);
-
-// Step 2: delete old docs
-if (Array.isArray(oldDocs) && oldDocs.length > 0) {
-  for (const doc of oldDocs) {
-    try {
-      if (doc?.FileRef) {
-        await sp.deleteFile(doc.FileRef, props);
-      }
-    } catch (err) {
-      console.error("Delete error:", doc, err);
-    }
-  }
-}
-
-// Step 3: upload new files with timestamp
-if (supportingFiles?.length > 0) {
-  const folderUrl = "/sites/NBCGatePass/SupportingDocs";
-
-  for (const file of supportingFiles) {
-    try {
-      const now = new Date();
-      const timestamp = now.toISOString().replace(/[:.]/g, "-");
-
-      const dotIndex = file.name.lastIndexOf(".");
-      const baseName =
-        dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
-      const extension =
-        dotIndex !== -1 ? file.name.substring(dotIndex) : "";
-
-      const newFileName = `${baseName}_${timestamp}${extension}`;
-
-      const renamedFile = new File([file], newFileName, {
-        type: file.type,
-      });
-
-      const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
-
-      const item = await uploadRes.file.getItem();
-
-      await sp.updateData(
+      // Step 1: get old docs
+      const oldDocs = await sp.getData(
         "SupportingDocs",
-        item.Id,
-        {
-          GatePassID: String(id),
-        },
+        "Id,FileLeafRef,FileRef,GatePassID",
+        "",
+        `GatePassID eq '${id}'`,
+        { column: "Id", isAscending: false },
         props
       );
-    } catch (err) {
-      console.error("Upload error:", file.name, err);
-    }
-  }
-}
+
+      // Step 2: delete old docs
+      if (Array.isArray(oldDocs) && oldDocs.length > 0) {
+        for (const doc of oldDocs) {
+          try {
+            if (doc?.FileRef) {
+              await sp.deleteFile(doc.FileRef, props);
+            }
+          } catch (err) {
+            console.error("Delete error:", doc, err);
+          }
+        }
+      }
+
+      // Step 3: upload new files with timestamp
+      if (supportingFiles?.length > 0) {
+        const folderUrl = "/sites/NBCGatePass/SupportingDocs";
+
+        for (const file of supportingFiles) {
+          try {
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:.]/g, "-");
+
+            const dotIndex = file.name.lastIndexOf(".");
+            const baseName =
+              dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
+            const extension =
+              dotIndex !== -1 ? file.name.substring(dotIndex) : "";
+
+            const newFileName = `${baseName}_${timestamp}${extension}`;
+
+            const renamedFile = new File([file], newFileName, {
+              type: file.type,
+            });
+
+            const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
+
+            const item = await uploadRes.file.getItem();
+
+            await sp.updateData(
+              "SupportingDocs",
+              item.Id,
+              {
+                GatePassID: String(id),
+              },
+              props
+            );
+          } catch (err) {
+            console.error("Upload error:", file.name, err);
+          }
+        }
+      }
 
       // Delete existing child items
       const oldItems = await childService.getAuthorisedByGatePassId(
@@ -623,6 +623,23 @@ if (supportingFiles?.length > 0) {
     loadMasters();
     loadData();
   }, [id]);
+
+  const handleDeleteUploadedFile = async (file: any) => {
+    try {
+      const sp = await SPCRUDOPS();
+
+      await sp.deleteFile(file.FileRef, props);
+
+      setUploadedFiles((prev) =>
+        prev.filter((x) => x.Id !== file.Id)
+      );
+
+      alert("File deleted successfully.");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete file.");
+    }
+  };
 
   return (
     <div className="new-request">
@@ -901,45 +918,87 @@ if (supportingFiles?.length > 0) {
         />
 
         <div className="attach">
-    <label>Supporting documents</label>
+          <label>Supporting documents</label>
 
-    <input
-        type="file"
-        multiple
-        onChange={(e) => {
-            if (e.target.files) {
-                setSupportingFiles(Array.from(e.target.files));
-            }
-        }}
-    />
+          <input
+            type="file"
+            multiple
+            onChange={(e) => {
+              if (e.target.files) {
+                setSupportingFiles((prev) => [
+                  ...prev,
+                  ...Array.from(e.target.files),
+                ]);
 
-    <br />
+                // e.target.value = "";
+              }
+            }}
+          />
 
-    {uploadedFiles.length > 0 && (
-        <div>
-            <b>Existing Files</b>
+          <br />
 
-            {uploadedFiles.map((file) => (
+          {uploadedFiles.length > 0 && (
+            <div>
+              <b>Existing Files</b>
+
+              {uploadedFiles.map((file) => (
                 <div key={file.Id}>
-                    <a
-                        href={file.FileRef}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {file.FileLeafRef}
-                    </a>
+                  <a
+                    href={file.FileRef}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {file.FileLeafRef}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteUploadedFile(file)}
+                  >
+                    ✖
+                  </button>
                 </div>
-            ))}
+              ))}
+            </div>
+          )}
+          {supportingFiles.length > 0 && (
+            <div style={{ marginTop: "10px" }}>
+              <b>New Files</b>
+              <ul>
+                {supportingFiles.map((file, index) => (
+                  <li
+                    key={index}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{file.name}</span>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSupportingFiles((prev) =>
+                          prev.filter((_, i) => i !== index)
+                        )
+                      }
+                    >
+                      ✖
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
         </div>
-    )}
-</div>
       </div>
 
       <div className="buttons">
         <button
           className="draft"
           onClick={handleSaveDraft}
-         disabled={isDraftLoading}
+          disabled={isDraftLoading}
         >
           {isDraftLoading ? "Saving..." : "Save as Draft"}
         </button>
@@ -947,10 +1006,10 @@ if (supportingFiles?.length > 0) {
         <button
           className="submit"
           onClick={handleUpdate}
-           disabled={isSubmitLoading}
-          
+          disabled={isSubmitLoading}
+
         >
-          { isSubmitLoading ? "Saving..." : "Submit"}
+          {isSubmitLoading ? "Saving..." : "Submit"}
         </button>
 
         <button
