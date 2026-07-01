@@ -26,7 +26,7 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
     return requests
       .filter(
         (item) =>
-          item.Status === "Pending For Approver" &&
+          item.Status === "Pending For Approval" &&
           item.CurrentApprover?.Id === currentUserId
       )
       .sort((a, b) => b.Id - a.Id);
@@ -79,7 +79,7 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
 
 
       {/* Search Section */}
-      <div className="mainsecond">
+      {/* <div className="mainsecond">
 
         <input
           placeholder="Search"
@@ -98,11 +98,11 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
           <option>Send Back</option>
           <option>Draft</option>
           {/* <option>Paid</option>
-          <option>Pending for UTR Update</option> */}
+          <option>Pending for UTR Update</option> 
 
         </select>
 
-      </div>
+      </div> */}
 
 
 

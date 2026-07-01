@@ -271,7 +271,7 @@ const ApproverForm: React.FC<IGatepassProps> = (props) => {
       let nextApproverId: number | null = null;
 
       if (nextApprover) {
-        newStatus = `Pending For ${nextApprover.Role} Approval`;
+        newStatus = `Pending For Approval`;
         nextApproverId = nextApprover.Id;
       }
 
@@ -530,7 +530,7 @@ const ApproverForm: React.FC<IGatepassProps> = (props) => {
         </table>
 
         <div className="authorized">
-          Attach Supporting Documents
+          Supporting documents
           {uploadedFiles.length === 0 ? (
             <span>No attachments</span>
           ) : (

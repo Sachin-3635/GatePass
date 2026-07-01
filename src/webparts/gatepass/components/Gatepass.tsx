@@ -42,19 +42,15 @@ const GatepassLayout: React.FC<IGatepassProps> = (props) => {
       >
         <Switch>
           <Route
+          exact
             path="/ApproverDashboard"
             render={() => <ApproverDashboard {...props} />}
           />
-
-          <Route
-            path="/RequesterDashboard"
-            render={() => <RequesterDashboard {...props} />}
-          />
-
-          <Route path="/NewRequest" render={() => <NewRequest {...props} />} />
-           <Route path="/ApproverForm/:id" render={() => <ApproverForm {...props} />} />
-           <Route path="/EditForm/:id" render={() => <EditForm {...props} />} />
-           <Route path="/ViewForm/:id" render={() => <ViewForm {...props} />} />
+ <Route exact  path="/"  render={() => <RequesterDashboard {...props} />} />
+          <Route exact path="/NewRequest" render={() => <NewRequest {...props} />} />
+           <Route exact path="/ApproverForm/:id" render={() => <ApproverForm {...props} />} />
+           <Route exact path="/EditForm/:id" render={() => <EditForm {...props} />} />
+           <Route exact path="/ViewForm/:id" render={() => <ViewForm {...props} />} />
 
            {/* <Route path="/ApproverForm/:id" component={ApproverForm} /> */}
         </Switch>

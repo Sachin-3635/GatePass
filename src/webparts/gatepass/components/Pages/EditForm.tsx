@@ -292,7 +292,7 @@ const getFinalApproverMatrix = () => {
   //     }
 
   //     alert("Updated successfully!");
-  //     history.push("/RequesterDashboard");
+  //     history.push("/");
   //   } catch (err) {
   //     console.error(err);
   //     alert("Update failed");
@@ -482,7 +482,7 @@ if (supportingFiles?.length > 0) {
       }
 
       alert("Updated successfully!");
-      history.push("/RequesterDashboard");
+      history.push("/");
     } catch (err) {
       console.error(err);
       alert("Update failed");
@@ -611,7 +611,7 @@ if (supportingFiles?.length > 0) {
       }
 
       alert("Draft updated successfully");
-      history.push("/RequesterDashboard");
+      history.push("/");
     } catch (err) {
       console.error(err);
       alert("Error saving draft");
@@ -855,7 +855,7 @@ if (supportingFiles?.length > 0) {
       </button> */}
 
       {/* <div className="attach">
-        Attach Supporting Documents &nbsp;&nbsp;
+        Supporting documents &nbsp;&nbsp;
         <a>View</a>
       </div> */}
       <br></br>
@@ -901,7 +901,7 @@ if (supportingFiles?.length > 0) {
         />
 
         <div className="attach">
-    <label>Attach Supporting Documents</label>
+    <label>Supporting documents</label>
 
     <input
         type="file"
@@ -955,7 +955,7 @@ if (supportingFiles?.length > 0) {
 
         <button
           className="exit"
-          onClick={() => history.push("/RequesterDashboard")}
+          onClick={() => history.push("/")}
         >
           Exit
         </button>

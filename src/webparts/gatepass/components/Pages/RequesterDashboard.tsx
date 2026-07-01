@@ -83,14 +83,14 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
 
-        <select className="formtext-control">
+        {/* <select className="formtext-control">
           <option>All</option>
           <option>Pending for Approval</option>
           <option>Approved</option>
           <option>Rejected</option>
           <option>Send Back</option>
           <option>Draft</option>
-        </select>
+        </select> */}
 
         <button className="newBtn" onClick={() => history.push("/NewRequest")}>
           New Request

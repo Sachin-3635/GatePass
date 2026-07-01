@@ -15,7 +15,7 @@ const Sidebar: React.FC<IGatepassProps> = (props) => {
         <div className="logo">
           <img width="25" height="25"
           //  alt="logo"
-            />
+          />
         </div>
 
         <div className="sidehead-right">
@@ -29,7 +29,7 @@ const Sidebar: React.FC<IGatepassProps> = (props) => {
           width={20}
           height={20}
           style={{ margin: "10px 20px" }}
-          // alt="user"
+        // alt="user"
         />
 
         {props.userDisplayName}
@@ -37,6 +37,18 @@ const Sidebar: React.FC<IGatepassProps> = (props) => {
 
 
       <ul className="nav">
+        <li className="nav-item">
+          <Link
+            to="/"
+            className={
+              location.pathname === "/"
+                ? "nav-link active"
+                : "nav-link"
+            }
+          >
+            Requestor Dashboard
+          </Link>
+        </li>
 
         <li className="nav-item">
           <Link
@@ -47,23 +59,12 @@ const Sidebar: React.FC<IGatepassProps> = (props) => {
                 : "nav-link"
             }
           >
-            Approver Dashboard
+            Approval Dashboard
           </Link>
         </li>
 
 
-        <li className="nav-item">
-          <Link
-            to="/RequesterDashboard"
-            className={
-              location.pathname === "/RequesterDashboard"
-                ? "nav-link active"
-                : "nav-link"
-            }
-          >
-            Requestor Dashboard
-          </Link>
-        </li>
+
 
       </ul>
 

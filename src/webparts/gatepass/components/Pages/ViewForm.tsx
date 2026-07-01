@@ -11,7 +11,7 @@ interface IApproverDetails {
   Name: string;
   Role: string;
   Level: number;
-  status: string;
+  Status: string;
 }
 
 const ViewForm: React.FC<IGatepassProps> = (props) => {
@@ -90,12 +90,24 @@ const ViewForm: React.FC<IGatepassProps> = (props) => {
 
       <div className="approval-ribbon">
         <div className="ribbon-step approved">{"Initiator"}</div>
+        {approverDetails.map((step, index) => {
+          let className = "waiting";
 
-        {approverDetails.map((approver, index) => (
+          if (step.Status === "initiator") className = "initiator";
+          if (step.Status === "Approved") className = "approved";
+          if (step.Status === "current") className = "current";
+
+          return (
+            <div key={index} className={`ribbon-step ${className}`}>
+              {step.Name}
+            </div>
+          );
+        })}
+        {/* {approverDetails.map((approver, index) => (
           <div key={index} className="ribbon-step approver">
             {approver.Name}
           </div>
-        ))}
+        ))} */}
       </div>
       <div className="new-request">
 
@@ -214,7 +226,7 @@ const ViewForm: React.FC<IGatepassProps> = (props) => {
         </table>
 
         <div className="authorized">
-          Attach Supporting Documents
+          Supporting documents
           {uploadedFiles.length === 0 ? (
             <span>No attachments</span>
           ) : (
@@ -277,7 +289,7 @@ const ViewForm: React.FC<IGatepassProps> = (props) => {
 
           <button
             className="exit"
-            onClick={() => history.push("/RequesterDashboard")}
+            onClick={() => history.push("/")}
           >
             Exit
           </button>
