@@ -12,6 +12,8 @@ import GatePass from "../../service/BAL/GatePass";
 import type { IGatePass } from "../../service/INTERFACE/GatePass";
 import AuthorisedSignatories from "../../service/BAL/AuthorisedSignatories";
 import ApproverMatrics from "../../service/BAL/ApprovrMatrics";
+import logo from "../../assets/nbclatest.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
 interface IApproverDetails {
   Id: number;
   Name: string;
@@ -415,47 +417,47 @@ const NewRequest: React.FC<IGatepassProps> = (props) => {
       const gatePassId = response.data.Id;
 
       if (supportingFiles.length > 0) {
-      
-          const sp = await SPCRUDOPS();
-          const folderUrl = "/sites/NBCGatePass/SupportingDocs";
 
-          for (const file of supportingFiles) {
+        const sp = await SPCRUDOPS();
+        const folderUrl = "/sites/NBCGatePass/SupportingDocs";
 
-            const now = new Date();
-            const timestamp = now.toISOString().replace(/[:.]/g, "-");
+        for (const file of supportingFiles) {
 
-
-            const dotIndex = file.name.lastIndexOf(".");
-            const baseName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
-            const extension = dotIndex !== -1 ? file.name.substring(dotIndex) : "";
+          const now = new Date();
+          const timestamp = now.toISOString().replace(/[:.]/g, "-");
 
 
-            const newFileName = `${baseName}_${timestamp}${extension}`;
+          const dotIndex = file.name.lastIndexOf(".");
+          const baseName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
+          const extension = dotIndex !== -1 ? file.name.substring(dotIndex) : "";
 
 
-            const renamedFile = new File([file], newFileName, { type: file.type });
+          const newFileName = `${baseName}_${timestamp}${extension}`;
 
-            const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
 
-            const fileItem = uploadRes.file;
-            const item = await fileItem.getItem();
+          const renamedFile = new File([file], newFileName, { type: file.type });
 
-            const itemId = item.Id;
+          const uploadRes = await sp.uploadFile(folderUrl, renamedFile, props);
 
-            if (!itemId) {
-              throw new Error("File uploaded but List Item ID not found");
-            }
+          const fileItem = uploadRes.file;
+          const item = await fileItem.getItem();
 
-            await sp.updateData(
-              "SupportingDocs",
-              itemId,
-              {
-                GatePassID: String(gatePassId)
-              },
-              props
-            );
+          const itemId = item.Id;
+
+          if (!itemId) {
+            throw new Error("File uploaded but List Item ID not found");
           }
-        
+
+          await sp.updateData(
+            "SupportingDocs",
+            itemId,
+            {
+              GatePassID: String(gatePassId)
+            },
+            props
+          );
+        }
+
       }
 
       for (const item of items) {
@@ -641,388 +643,299 @@ const NewRequest: React.FC<IGatepassProps> = (props) => {
   }, [ApproveType, header]);
 
   return (
-    <div className="new-request">
-      <h3 className="page-title">New Request Form</h3>
-      <div className="approval-ribbon">
-        <div className="ribbon-step approved">{"Initiator"}</div>
-        {/* initiator */}
-        {approverDetails.map((approver, index) => (
-          <div key={index} className="ribbon-step approver">
-            {approver.Name}
-          </div>
-        ))}
-      </div>
-
-      <div className="section-title">Request Information</div>
-
-      <div className="form-grid">
-        <div>
-          <label>Request By</label>
-          <input type="text" value={header.EmployeeName} readOnly />
-        </div>
-
-        <div>
-          <label>Department</label>
-          <input type="text" value={header.department} readOnly />
-        </div>
-
-        <div>
-          <label>Reporting Manager</label>
-          <input
-            type="text"
-            value={header.reportingManager}
-            onChange={(e) =>
-              setHeader({ ...header, reportingManager: e.target.value })
-            }
-          />
-        </div>
-
-        <div>
-          <label>Name of Vendor *</label>
-
-          <select
-            value={selectedVendor}
-            onChange={(e) => setSelectedVendor(e.target.value)}
-          >
-            <option value="">--Select--</option>
-
-            {vendors.map((v) => (
-              <option key={v.Id} value={v.Id}>
-                {v.VendorName}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>Address of Vendor *</label>
-
-          <textarea
-            readOnly
-            value={
-              vendors.find((v) => v.Id === Number(selectedVendor))?.Address ||
-              ""
-            }
-          />
-        </div>
-
-        <div>
-          <label>Location *</label>
-
-          <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
-          >
-            <option value="">--Select--</option>
-
-            {locations.map((loc) => (
-              <option key={loc.Id} value={loc.Id}>
-                {loc.City}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>No of Items *</label>
-
-          <input
-            type="text"
-            value={noOfItems}
-            onChange={(e) => {
-              const value = e.target.value;
-
-              if (/^\d*$/.test(value)) {
-                setNoOfItems(value);
-
-                if (value === "") return;
-
-                let count = Number(value);
-
-                if (count <= 0) count = 1;
-
-                const newItems = Array.from({ length: count }, (_, i) => {
-                  return (
-                    items[i] || {
-                      sr: i + 1,
-                      description: "",
-                      quantity: "",
-                      approx: "",
-                      date: "",
-                      purpose: "",
-                    }
-                  );
-                });
-
-                setItems(newItems);
-              }
-            }}
-          />
-        </div>
-
-        <div>
-          <label>UOM</label>
-
-          <select value={uom} onChange={(e) => setUom(e.target.value)}>
-            <option value="">--Select--</option>
-            <option value="Box">Box</option>
-            <option value="Packets">Packets</option>
-          </select>
-        </div>
-
-        <div>
-          <label>No of Items in box *</label>
-          <input
-            type="text"
-            value={itemsPerBox}
-            onChange={(e) => {
-              const value = e.target.value;
-
-              // allow only numbers
-              if (/^\d*$/.test(value)) {
-                setItemsPerBox(value);
-              }
-            }}
-          />
-
-          {/* <input
-            type="text"
-            value={itemsPerBox}
-            onChange={(e) => {
-              const value = e.target.value;
-
-              if (/^\d*$/.test(value)) {
-                setItemsPerBox(value);
-
-                // OPTIONAL: update quantity in each row
-                const updatedItems = items.map((item) => ({
-                  ...item,
-                  quantity: value,
-                }));
-
-                setItems(updatedItems);
-              }
-            }}
-          /> */}
-        </div>
-
-        <div>
-          <label>Gatepass is returnable or not ?</label>
-
-          <select
-            value={returnable}
-            onChange={(e) => setReturnable(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="authorized">
-        <label>Authorised Signatory *</label>
-
-        <a>Click here to view Authorised Signatories</a>
-      </div>
-
-      <table className="item-table">
-        <thead>
-          <tr>
-            <th>Sr.No</th>
-            <th>Description of Material</th>
-            <th>Quantity</th>
-            <th>Approximate Value</th>
-            <th>Probable Date</th>
-            <th>Purpose for Movement</th>
-            {/* <th>Action</th> */}
-          </tr>
-        </thead>
-
-        <tbody>
-          {items.map((item, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-
-              <td>
-                <input
-                  value={item.description}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].description = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-              <td>
-                <input
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    const updated = [...items];
-                    updated[index].quantity = value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  value={item.approx}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    const updated = [...items];
-                    updated[index].approx = value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  type="date"
-                  value={item.date}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].date = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  value={item.purpose}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].purpose = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              {/* <td>
-                <button className="delete" onClick={() => removeRow(index)}>
-                  ✖
-                </button>
-              </td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* <button className="add" onClick={addRow}>
-        +
-      </button> */}
-
-      <div className="bottom-area">
-        <div>
-          <label>Remarks</label>
-
-          <textarea
-            value={remarks}
-            onChange={(e) => setRemarks(e.target.value)}
-          />
-        </div>
-
-        {/* <div className="attach">Supporting documents </div> */}
-        {/* <div className="attach">
-  <label>Supporting documents</label>
-
-  <input
-    type="file"
-    multiple
-    onChange={(e) => {
-      if (e.target.files) {
-        setSupportingFiles(Array.from(e.target.files));
-      }
-    }}
-  />
-</div> */}
-        <div className="attach">
-          <label>Supporting documents</label>
-
-          <input
-            type="file"
-            multiple
-            onChange={(e) => {
-              if (e.target.files) {
-                setSupportingFiles((prev) => [
-                  ...prev,
-                  ...Array.from(e.target.files),
-                ]);
-
-                // Optional: Clear input so the same file can be selected again
-               // e.target.value = "";
-              }
-            }}
-          />
-
-          {supportingFiles.length > 0 && (
-            <div className="mt-2">
-              <strong>Selected Files:</strong>
-
-              <ul style={{ marginTop: "8px", paddingLeft: "18px" }}>
-                {supportingFiles.map((file, index) => (
-                  <li
-                    key={index}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    <span>{file.name}</span>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSupportingFiles((prev) =>
-                          prev.filter((_, i) => i !== index)
-                        )
-                      }
-                      style={{
-                        color: "red",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ✖
-                    </button>
-                  </li>
-                ))}
-              </ul>
+    <div className='MainUplodForm' style={{ margin: "5px 0px" }}>
+      <div className='row'>
+        <div className='col-md-12'>
+          <div className='Main-Boxpoup'>
+            <div className="bordered">
+              <a><img src={logo} /></a>
+              <h1>New Request Form</h1>
             </div>
-          )}
+            <div className="approval-ribbon">
+              <div className="ribbon-step approved">{"Initiator"}</div>
+              {/* initiator */}
+              {approverDetails.map((approver, index) => (
+                <div key={index} className="ribbon-step approver">
+                  {approver.Name}
+                </div>
+              ))}
+            </div>
+            <div className='borderedbox'>
+              <div className="heading1">
+                <label>Requestor Information</label>
+              </div>
+              <div className='main-formcontainer'>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Request By</label>
+                    <input type="text" className="form-control textfield" value={header.EmployeeName} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Department </label>
+                    <input type="text" className="form-control textfield" value={header.department} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Reporting Manager </label>
+                    <input type="text" className="form-control textfield" value={header.reportingManager}
+                      onChange={(e) => setHeader({ ...header, reportingManager: e.target.value })} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Name of Vendor <span className='Mantorystar'>*</span></label>
+                    <select value={selectedVendor} className="form-control textfield"
+                      onChange={(e) => setSelectedVendor(e.target.value)}>
+                      <option value="">--Select--</option>
+                      {vendors.map((v) => (
+                        <option key={v.Id} value={v.Id}>
+                          {v.VendorName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Address of Vendor <span className='Mantorystar'>*</span></label>
+                    <textarea className="form-control textfield"
+                      value={vendors.find((v) => v.Id === Number(selectedVendor))?.Address || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Location <span className='Mantorystar'>*</span></label>
+                    <select value={selectedLocation} className="form-control textfield"
+                      onChange={(e) => setSelectedLocation(e.target.value)}>
+                      <option value="">--Select--</option>
+                      {locations.map((loc) => (
+                        <option key={loc.Id} value={loc.Id}>
+                          {loc.City}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items <span className='Mantorystar'>*</span></label>
+                    <input
+                      type="text" className="form-control textfield"
+                      value={noOfItems}
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        if (/^\d*$/.test(value)) {
+                          setNoOfItems(value);
+
+                          if (value === "") return;
+
+                          let count = Number(value);
+
+                          if (count <= 0) count = 1;
+
+                          const newItems = Array.from({ length: count }, (_, i) => {
+                            return (
+                              items[i] || {
+                                sr: i + 1,
+                                description: "",
+                                quantity: "",
+                                approx: "",
+                                date: "",
+                                purpose: "",
+                              }
+                            );
+                          });
+
+                          setItems(newItems);
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>UOM </label>
+                    <select value={uom} className="form-control textfield" onChange={(e) => setUom(e.target.value)}>
+                      <option value="">--Select--</option>
+                      <option value="Box">Box</option>
+                      <option value="Packets">Packets</option>
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items in box <span className="Mantorystar"></span></label>
+                    <input type="text" className="form-control textfield"
+                      value={itemsPerBox} onChange={(e) => { const value = e.target.value; if (/^\d*$/.test(value)) { setItemsPerBox(value); } }} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Gatepass is returnable or not ? </label>
+                    <select value={returnable} className="form-control textfield" onChange={(e) => setReturnable(e.target.value)}>
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font' style={{ display: "block" }}>Authorised Signatory <span className="Mantorystar">*</span> </label>
+                    <a>Click here to view Authorised Signatories</a>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Supporting documents </label>
+                    <input
+                      type="file" className="form-control textfield"
+                      multiple
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          setSupportingFiles((prev) => [
+                            ...prev,
+                            ...Array.from(e.target.files),
+                          ]);
+                        }
+                      }}
+                    />
+                    {supportingFiles.length > 0 && (
+                      <div className="mt-2">
+                        <strong>Selected Files:</strong>
+
+                        <ul style={{ marginTop: "8px", paddingLeft: "18px" }}>
+                          {supportingFiles.map((file, index) => (
+                            <li
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginBottom: "5px",
+                              }}
+                            >
+                              <span>{file.name}</span>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setSupportingFiles((prev) =>
+                                    prev.filter((_, i) => i !== index)
+                                  )
+                                }
+                                style={{
+                                  color: "red",
+                                  border: "none",
+                                  background: "transparent",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                ✖
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Sr.No</th>
+                            <th>Description of Material</th>
+                            <th>Quantity</th>
+                            <th>Approximate Value</th>
+                            <th>Probable Date</th>
+                            <th>Purpose for Movement</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {items.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+
+                              <td>
+                                <input
+                                  value={item.description}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].description = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  value={item.quantity}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    const updated = [...items];
+                                    updated[index].quantity = value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  value={item.approx}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    const updated = [...items];
+                                    updated[index].approx = value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  type="date"
+                                  value={item.date}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].date = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  value={item.purpose}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].purpose = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <label className='font'>Remarks </label>
+                    <textarea value={remarks} className="form-control textfield"
+                      onChange={(e) => setRemarks(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+              <div className='row mb-20 mt-20'>
+                <div className='col-md-12'>
+                  <div className="button-container">
+                    <button className="submit-btn" onClick={handleSubmit} disabled={isSubmitLoading}>
+                      {isSubmitLoading ? "Saving..." : "Submit"}
+                    </button>
+                    <button className="draft-btn" onClick={handleSaveDraft} disabled={isDraftLoading}>
+                      {isDraftLoading ? "Saving..." : "Save as Draft"}
+                    </button>
+                    <button className="Exit-btn" onClick={() => history.push("/")} >
+                      Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="buttons">
-        <button
-          className="draft"
-          onClick={handleSaveDraft}
-          disabled={isDraftLoading}
-
-        >
-          {isDraftLoading ? "Saving..." : "Save as Draft"}
-        </button>
-
-        <button
-          className="submit"
-          onClick={handleSubmit}
-          disabled={isSubmitLoading}
-        >
-          {isSubmitLoading ? "Saving..." : "Submit"}
-        </button>
-
-        <button
-          className="exit"
-          onClick={() => history.push("/")}
-        >
-          Exit
-        </button>
       </div>
     </div>
   );

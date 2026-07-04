@@ -1,709 +1,217 @@
-/* =========================================================
-   SHAREPOINT MODERN PAGE FULL WIDTH FIX
-   WORKS AFTER DEPLOYMENT
-========================================================= */
+// :global {
+
+  #sp-appBar,
+  #SuiteNavWrapper,
+  #spLeftNav,
+  #spCommandBar,
+  #spSiteHeader,
+  #CommentsWrapper {
+    display: none !important;
+  }
+
+  .CanvasZoneSectionContainer {
+    max-width: 100% !important;
+    padding: 0px !important;
+  }
 
 
-/* =========================================================
-   1. HIDE DEFAULT SHAREPOINT UI ELEMENTS
-========================================================= */
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+  #workbenchPageContent {
+    max-width: 100% !important;
+    padding: 0px !important;
+    margin: 0px !important;
+  }
 
+  .CanvasZone,
+  .CanvasSection {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
 
-/* MAIN PAGE FLEX */
-
-.main-layout {
-
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-
-}
+  .ControlZone {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+// }
 
 
 
-/* SIDEBAR */
+
+
 
 .sidebar {
-
   width: 250px;
-  min-width: 250px;
-  min-height: 100vh;
-
-  background: #000;
+  background: linear-gradient(0.75turn, #0079c2, #332986);
   color: white;
-
+  // height: 100vh;
+  min-height: 100vh;
+  height: auto;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-
+  font-family: Arial, sans-serif;
+  position: sticky;
+  top: 0;
 }
 
-
-
-/* SIDEBAR HEADER */
-
 .sidehead {
-
-  height: 65px;
-
   display: flex;
   align-items: center;
-
-  padding: 0 15px;
-
-  border-bottom: 1px solid #444;
-
+  justify-content: center;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 
 .logo img {
-
-  width: 40px;
-  height: 40px;
-
-}
-
-
-.sidehead-right {
-
-  margin-left: 10px;
-  font-weight: bold;
-
-}
-
-
-
-/* USER */
-
-.sidehead-user {
-
-  height: 50px;
-
-  display: flex;
-  align-items: center;
-
-  border-bottom: 1px solid #444;
-
-  font-weight: bold;
-
-}
-
-
-
-/* MENU */
-
-.nav {
-
-  list-style: none;
-
-  padding: 0;
-  margin: 0;
-
-}
-
-
-
-.nav-item {
-
-  border-bottom: 1px solid #333;
-
-}
-
-
-
-.nav-link {
-
-
-  display: block;
-
-  padding: 15px 20px;
-
-  color: white !important;
-
-  text-decoration: none;
-
-  cursor: pointer;
-
-
-}
-
-
-
-.nav-link:hover {
-
-
-  background: #333;
-
-}
-
-
-
-.nav-link.active {
-
-
-  background: #3c3e45;
-
-  font-weight: bold;
-
-
-}
-
-
-
-
-
-/* DASHBOARD AREA */
-
-
-.main {
-
-  flex: 1;
-
-  width: 100%;
-
-  min-width: 0;
-
-}
-
-
-
-/* HEADER */
-
-
-.header {
-
-
-  width: 100%;
-
-  height: 65px;
-
-  background: linear-gradient(90deg,
-      #3c3e45,
-      #2d2d2d);
-
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-
-  color: white;
-
-
-}
-
-
-
-.logo-text h2 {
-
-
-  margin: 0;
-
-  font-size: 20px;
-
-
-}
-
-
-
-/* SEARCH */
-
-
-.mainsecond {
-
-
-  display: flex;
-
-  gap: 15px;
-
-  padding: 15px;
-
-
-}
-
-
-
-.form-control {
-
-
-  width: 250px;
-
-  height: 32px;
-
-}
-
-
-
-.formtext-control {
-
-
-  height: 32px;
-
-}
-
-
-
-/* TABLE */
-
-
-.Main-Dash {
-
-
-  padding: 15px;
-
-}
-
-
-
-.table-vert-scroll {
-
-
-  width: 100%;
-
-  overflow-x: auto;
-
-
-}
-
-
-.custom-table {
-
-
-  width: 100%;
-
-  border-collapse: collapse;
-
-}
-
-
-
-.custom-table th {
-
-
-  background: #000;
-
-  color: white;
-
-  padding: 12px;
-
-
-}
-
-
-
-.custom-table td {
-
-
-  padding: 12px;
-
-  border: 1px solid #ddd;
-
-  text-align: center;
-
-
-}
-
-
-
-/* PAGINATION */
-
-
-.pagination {
-
-
-  margin-top: 15px;
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: 15px;
-
-
-}
-
-#spCommandBar,
-#spSiteHeader,
-#spLeftNav,
-#CommentsWrapper,
-.sp-appBar,
-.CommandBarWrapper,
-.sp-pageChrome-appDiv,
-.od-TopBar,
-.sp-header,
-.sp-siteHeader,
-.sp-appBar-mobile,
-.ms-HubNav {
-  display: none !important;
-}
-
-
-/* =========================================================
-   2. RESET GLOBAL PAGE SPACING
-========================================================= */
-
-html,
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  font-family: Arial, Helvetica, sans-serif !important;
-}
-
-
-/* =========================================================
-   3. FULL WIDTH SHAREPOINT CONTAINERS
-========================================================= */
-
-#workbenchPageContent,
-#spPageCanvasContent,
-.CanvasComponent,
-.Canvas,
-.CanvasZone,
-.CanvasSection,
-.ControlZone,
-.CanvasZoneSectionContainer,
-.ms-SPLegacyFabricBlock,
-[data-automation-id="Canvas"],
-[data-automation-id="CanvasZone"],
-[data-automation-id="CanvasSection"],
-[data-automation-id="CanvasLayout"],
-[data-automation-id="CanvasControl"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-
-
-/* =========================================================
-   4. REMOVE INTERNAL GAPS BETWEEN CONTAINERS
-========================================================= */
-
-#workbenchPageContent>div,
-#workbenchPageContent>div>div,
-#workbenchPageContent>div>div>div,
-.CanvasZone>div,
-.CanvasSection>div,
-.ControlZone>div {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-
-/* =========================================================
-   5. SHAREPOINT PAGE WRAPPERS FULL WIDTH FIX
-========================================================= */
-
-.spAppAndPropertyPanelContainer,
-.mainContent,
-.RootFlexContainer,
-.ContentContainer,
-.SPCanvas,
-.pageContent,
-.CanvasHost {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-
-/* =========================================================
-   6. BOOTSTRAP CONTAINER OVERRIDE
-========================================================= */
-
-.container,
-.container-fluid {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-
-/* =========================================================
-   7. FLUENT / FABRIC UI FIX
-========================================================= */
-
-.ms-Fabric,
-.ms-Stack,
-.ms-StackItem {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-
-/* =========================================================
-   8. GLOBAL BOX MODEL FIX
-========================================================= */
-
-div,
-section {
-  box-sizing: border-box !important;
-}
-
-
-/* =========================================================
-   9. FIX RIGHT SIDE WHITE SPACE ISSUE
-========================================================= */
-
-.CanvasComponent,
-.CanvasZone {
-  overflow: hidden !important;
-}
-
-
-/* =========================================================
-   10. FINAL GLOBAL SAFETY OVERRIDES
-========================================================= */
-
-body,
-#spPageCanvasContent {
-  display: block !important;
-}
-
-html,
-body {
-  overflow-x: hidden !important;
-}
-
-
-/* ===================== END SHAREPOINT FIX ===================== */
-.Canvas {
-  display: block !important;
-}
-
-.c_XTVxy_hHQBj {
-  padding: 0 !important;
-}
-
-.ControlZone {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 0 !important;
-}
-
-.CanvasComponent.LCS .CanvasZone {
-  padding: 0 !important;
-}
-
-.CanvasComponent.LCS .CanvasSection-col {
-  padding-left: 0 !important;
-}
-
-.sidebarmenu h3 {
+  height: 55px;
   padding: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-
-/* Active class */
-.sidebarmenu .active {
-  background: white;
-  color: black;
-  font-weight: bold;
-}
-
-.d-left img {
-  width: 60px;
-}
-
-.d-left {
-  float: left;
-}
-
-.d-right {
-  float: right;
-}
-
-.d-right img {
-  width: 27px;
-}
-
-.userinfo {
-  display: inline-block;
-  width: 89%;
-  text-align: right;
-  padding: 4px 0;
-}
-
-.hederbox {
-  background: #fff;
-  padding: 0 20px !important;
-}
-
-.subsection {
-  padding: 20px;
-  background: #f5f5f5;
-  height: 90%;
-}
-
-h3 {
-  font-size: 1rem !important;
-}
-
-.CanvasComponent.LCS .row {
-  margin: 0px;
-}
-
-.titlebox {
-  color: red;
-  font-size: 16px;
-  font-weight: 600;
-  padding-top: 8px;
-}
-
-.pr-0 {
-  padding-right: 0 !important;
-}
-
-.newrequestbtn {
-  background: black;
-  color: white;
-  padding: 10px 16px;
-
-  cursor: pointer;
-  font-size: 12px;
-  border-radius: 5px;
-}
-
-.data-table-section th,
-.data-table-section td {
-  border: none !important;
-}
-
-input {
-  outline: none !important;
-}
-
-.container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-}
-
-.sidebar {
-  background-color: #000;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  font-family: Arial, sans-serif;
-  height: auto;
-  min-height: 100vh;
-  position: sticky;
-  top: 0;
-  width: 250px;
-}
-
-.sidehead {
-  align-items: center;
-  border-bottom: 1px solid hsla(0, 0%, 100%, .2);
-  display: flex;
-  padding: 12px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 0 10px;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.sidehead img {
-  height: 40px;
-  object-fit: contain;
-  width: 40px;
-}
-
-.sidehead-right {
-  margin-left: 10px;
+  background-color: #fff;
+  border-radius: 3px;
 }
 
 .sidehead-user {
-  align-items: center;
-  border-bottom: 1px solid hsla(0, 0%, 100%, .2);
   display: flex;
+  align-items: center;
+  // padding: 10px 0px;
+  border-bottom: 1px solid hsla(0, 0%, 100%, .2);
   font-weight: 600;
+  padding: 10px 0px;
 }
 
 .sidehead-user i {
-  background-color: rgba(0, 0, 0, .7);
+  background-color: #fcb814;
   border-radius: 50%;
-  padding: 10px;
+  padding: 10px 9px;
+  width: auto;
 }
 
+.sidehead-right {
+  margin-left: 10px;
+}
+
+.sidehead-right img {
+  width: 100%;
+  height: 20px;
+}
+
+
 .nav {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
   list-style: none;
   padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  display: flex; // ✅ Ensures flexbox layout
+  flex-direction: column; // ✅ Stack items vertically
 }
 
 .nav-item {
-  border-bottom: 3px solid rgba(120, 107, 194, .3);
   margin: 0;
-}
-
-.nav-link.active {
-  background: linear-gradient(90deg, #3c3e45, #1c1d1d);
-  font-weight: 700;
-}
-
-.nav-link.active:before {
-  border-right: 17px solid #ddd;
-  right: 0;
-  z-index: 1;
-}
-
-.nav-link.active:after,
-.nav-link.active:before {
-  border-bottom: 17px solid transparent;
-  border-top: 17px solid transparent;
-  content: "";
-  position: absolute;
-  top: 8px;
+  border-bottom: 3px solid rgba(216, 217, 219, .3);
 }
 
 .nav-link {
-  align-items: center;
-  color: #fff !important;
-  cursor: pointer !important;
   display: flex;
+  align-items: center;
   gap: 10px;
   padding: 15px 20px !important;
-  position: relative;
+  color: #fff !important;
   text-decoration: none !important;
-  transition: background-color .3s ease;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  cursor: pointer !important;
+  position: relative;
+  transition: background-color 0.3s ease;
   user-select: none;
 }
 
+
+.nav-link.active {
+  font-weight: bold;
+  background: linear-gradient(360deg, #fcb814, #ea6d1f);
+  // background: linear-gradient(to right, #3c3e45, #1c1d1d);
+
+}
+
+
+.nav-link.active::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-right: 17px solid #dddddd;
+  z-index: 1;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: -1px;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-right: 17px solid #fff;
+  z-index: 2;
+}
+
+.Dashboardbox {
+  background-color: #f6f6f6;
+}
+
+.header {
+  background: linear-gradient(360deg, #0079c2, #332986);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.headersecond {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+
+.mx-2 {
+  margin-left: .5rem !important;
+  margin-right: .5rem !important;
+}
+
+.table {
+  width: 100%;
+}
+
+.create-button {
+  align-items: center;
+  background-color: #332986;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 5px;
+}
+
+.logo-text h2 {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+}
+
+.custom-table {
+  width: 100%;
+}
+
 .custom-table th {
-  background-color: #000;
+  background: linear-gradient(360deg, #0079c2, #332986);
   color: #fff;
 }
 
@@ -715,114 +223,12 @@ input {
   white-space: nowrap;
 }
 
-.header {
-  background: linear-gradient(90deg, #3c3e45, #2d2d2d);
-  color: #fff;
-  display: flex;
-  height: 65px;
-  justify-content: center;
-  padding: 20px;
-  position: sticky;
-  top: 0;
-  width: 99.2%;
-  z-index: 999;
-}
-
-.logo-text h2 {
-  color: #fff;
-  font-size: 18px;
-  margin: 0;
-}
-
-.mainsecond {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 5px;
-}
-
-.mainsecondsmall {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.mainsecondapprove {
-  display: flex;
-  align-items: center;
-  margin: 5px 12px;
-  justify-content: space-between;
-}
-
-.create-button {
-  align-items: center;
-  background-color: #000;
-  border: none;
-  border-radius: 6px;
-  color: #fff !important;
-  cursor: pointer;
-  display: flex;
-  font-size: 14px;
-  padding: 8px 16px;
-  text-decoration: none;
-}
-
-#spCommandBar,
-#spSiteHeader,
-#spLeftNav,
-.ommandBarWrapper,
-.sp-appBar,
-#CommentsWrapper {
-  display: none !important;
-}
-
-.CanvasZoneSectionContainer {
-  max-width: 100% !important;
-}
-
-.newBtn {
-  padding: 10px 25px;
-  margin-left: 68%;
-  color: #fff;
-  font-weight: 600;
-  background-color: black;
-  border-color: black;
-  border-radius: 4px;
-}
-/* ================= PAGINATION STYLES ================= */
-
 .pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-top: 15px;
-  padding: 10px 0;
-}
-
-.pagination button {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.3s ease;
-}
-
-.pagination button:hover {
-  background-color: #333;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  color: #666;
+  display: flex !important;
+  justify-content: end;
+  padding: 10px;
 }
 
 .pagination span {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
+  padding-right: 5px;
 }

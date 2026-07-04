@@ -18,10 +18,10 @@ const GatepassLayout: React.FC<IGatepassProps> = (props) => {
   //  location.pathname === "/NewRequest" ||
   // location.pathname === "/ApproverForm";
   const hideSidebar =
-  location.pathname === "/NewRequest" ||
-  location.pathname.startsWith("/ApproverForm") ||
-  location.pathname.startsWith("/EditForm") ||
-  location.pathname.startsWith("/ViewForm");
+    location.pathname === "/NewRequest" ||
+    location.pathname.startsWith("/ApproverForm") ||
+    location.pathname.startsWith("/EditForm") ||
+    location.pathname.startsWith("/ViewForm");
 
   return (
     <div
@@ -37,22 +37,22 @@ const GatepassLayout: React.FC<IGatepassProps> = (props) => {
         className="main"
         style={{
           width: hideSidebar ? "100%" : "calc(100% - 200px)",
-          transition: "width 0.3s ease",
+          transition: "width 0.3s ease", margin: "0px 8px"
         }}
       >
         <Switch>
           <Route
-          exact
+            exact
             path="/ApproverDashboard"
             render={() => <ApproverDashboard {...props} />}
           />
- <Route exact  path="/"  render={() => <RequesterDashboard {...props} />} />
+          <Route exact path="/" render={() => <RequesterDashboard {...props} />} />
           <Route exact path="/NewRequest" render={() => <NewRequest {...props} />} />
-           <Route exact path="/ApproverForm/:id" render={() => <ApproverForm {...props} />} />
-           <Route exact path="/EditForm/:id" render={() => <EditForm {...props} />} />
-           <Route exact path="/ViewForm/:id" render={() => <ViewForm {...props} />} />
+          <Route exact path="/ApproverForm/:id" render={() => <ApproverForm {...props} />} />
+          <Route exact path="/EditForm/:id" render={() => <EditForm {...props} />} />
+          <Route exact path="/ViewForm/:id" render={() => <ViewForm {...props} />} />
 
-           {/* <Route path="/ApproverForm/:id" component={ApproverForm} /> */}
+          {/* <Route path="/ApproverForm/:id" component={ApproverForm} /> */}
         </Switch>
       </div>
     </div>

@@ -107,7 +107,7 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
 
 
       {/* Table */}
-      <main className="Main-Dash">
+      <main className="Main-Dash mx-2" style={{ marginTop: "15px" }}>
 
         <div className="table-vert-scroll">
 
@@ -144,7 +144,6 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
                     <td>{item.GatePassReturnable}</td>
                     <td>{item.Status}</td>
                     <td>
-
                       <button
                         className="newBtn"
                         onClick={() => history.push(`/ApproverForm/${item.Id}`)}

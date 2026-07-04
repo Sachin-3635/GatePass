@@ -9,7 +9,8 @@ import type { IGatePass } from "../../service/INTERFACE/GatePass";
 import type { IGatepassProps } from "../IGatepassProps";
 import "../Pages/Css/NewRequest.scss";
 import SPCRUDOPS from "../../service/DAL/spcrudops";
-
+import logo from "../../assets/nbclatest.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
 interface IApproverDetails {
   Id: number;
   Name: string;
@@ -642,382 +643,347 @@ const EditForm: React.FC<IGatepassProps> = (props) => {
   };
 
   return (
-    <div className="new-request">
-      <h3 className="page-title">Edit Request Form</h3>
-
-      <div className="section-title">Request Information</div>
-      <div className="approval-ribbon">
-        <div className="ribbon-step approved">{"Initiator"}</div>
-
-        {approverDetails.map((approver, index) => (
-          <div key={index} className="ribbon-step approver">
-            {approver.Name}
-          </div>
-        ))}
-      </div>
-      <div className="form-grid">
-        <div>
-          <label>Request By</label>
-          <input value={header.EmployeeName} readOnly />
-        </div>
-
-        <div>
-          <label>Department</label>
-          <input value={header.department} readOnly />
-        </div>
-
-        <div>
-          <label>Reporting Manager</label>
-          <input
-            value={header.reportingManager}
-            onChange={(e) =>
-              setHeader({ ...header, reportingManager: e.target.value })
-            }
-          />
-        </div>
-
-        <div>
-          <label>Name of Vendor *</label>
-          <select
-            value={selectedVendor}
-            onChange={(e) => setSelectedVendor(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            {vendors.map((v) => (
-              <option key={v.Id} value={v.Id}>
-                {v.VendorName}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>Address of Vendor *</label>
-          <textarea
-            readOnly
-            value={
-              vendors.find((v) => v.Id === Number(selectedVendor))?.Address ||
-              ""
-            }
-          />
-        </div>
-
-        <div>
-          <label>Location *</label>
-          <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            {locations.map((loc) => (
-              <option key={loc.Id} value={loc.Id}>
-                {loc.City}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>No of Items *</label>
-          <input
-            value={noOfItems}
-            //onChange={(e) => setNoOfItems(e.target.value)}
-            onChange={(e) => {
-              const value = e.target.value;
-
-              // allow only numbers
-              if (/^\d*$/.test(value)) {
-                setNoOfItems(value);
-
-                if (value === "") return;
-
-                let count = Number(value);
-
-                if (count <= 0) count = 1;
-
-                const newItems = Array.from({ length: count }, (_, i) => {
-                  return (
-                    items[i] || {
-                      sr: i + 1,
-                      description: "",
-                      quantity: "",
-                      approx: "",
-                      date: "",
-                      purpose: "",
-                    }
-                  );
-                });
-
-                setItems(newItems);
-              }
-            }}
-          />
-        </div>
-
-        <div>
-          <label>UOM</label>
-          <select value={uom} onChange={(e) => setUom(e.target.value)}>
-            <option value="">--Select--</option>
-            <option value="Box">Box</option>
-            <option value="Packets">Packets</option>
-          </select>
-        </div>
-
-        <div>
-          <label>No of Items in box *</label>
-          <input
-            value={itemsPerBox}
-            onChange={(e) => setItemsPerBox(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>Returnable</label>
-          <select
-            value={returnable}
-            onChange={(e) => setReturnable(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-
-      <table className="item-table">
-        <thead>
-          <tr>
-            <th>Sr.No</th>
-            <th>Description of Material</th>
-            <th>Quantity</th>
-            <th>Approximate Value</th>
-            <th>Probable Date</th>
-            <th>Purpose for Movement</th>
-            {/* <th>Action</th> */}
-          </tr>
-        </thead>
-
-        <tbody>
-          {items.map((item, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <input
-                  value={item.description}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].description = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    const updated = [...items];
-                    updated[index].quantity = value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  value={item.approx}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    const updated = [...items];
-                    updated[index].approx = value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              <td>
-                <input
-                  type="date"
-                  value={item.date}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].date = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-              <td>
-                <input
-                  value={item.purpose}
-                  onChange={(e) => {
-                    const updated = [...items];
-                    updated[index].purpose = e.target.value;
-                    setItems(updated);
-                  }}
-                />
-              </td>
-
-              {/* <td>
-                <button className="delete" onClick={() => removeRow(index)}>
-                  ✖
-                </button>
-              </td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* <button className="add" onClick={addRow}>
-        +
-      </button> */}
-
-      {/* <div className="attach">
-        Supporting documents &nbsp;&nbsp;
-        <a>View</a>
-      </div> */}
-      <br></br>
-
-      <div className="section-title" style={{ width: "30%" }}>
-        Workflow and Comment History
-      </div>
-      <br></br>
-
-      <table className="item-table mt-4">
-        <thead>
-          <tr>
-            <th>Action By</th>
-            <th>Action Taken</th>
-            <th>Date</th>
-            <th>Remark</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {workflow.length === 0 ? (
-            <tr>
-              <td colSpan={4}>No Workflow History</td>
-            </tr>
-          ) : (
-            workflow.map((w: any, index: number) => (
-              <tr key={index}>
-                <td>{w.CurrentApprover}</td>
-                <td>{w.ActionTaken}</td>
-                <td>{new Date(w.Date).toLocaleDateString("en-IN")}</td>
-                <td>{w.Comment || "-"}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
-      <div className="bottom-area">
-        <label>Remarks</label>
-        <textarea
-          value={remarks}
-          onChange={(e) => setRemarks(e.target.value)}
-        />
-
-        <div className="attach">
-          <label>Supporting documents</label>
-
-          <input
-            type="file"
-            multiple
-            onChange={(e) => {
-              if (e.target.files) {
-                setSupportingFiles((prev) => [
-                  ...prev,
-                  ...Array.from(e.target.files),
-                ]);
-
-                // e.target.value = "";
-              }
-            }}
-          />
-
-          <br />
-
-          {uploadedFiles.length > 0 && (
-            <div>
-              <b>Existing Files</b>
-
-              {uploadedFiles.map((file) => (
-                <div key={file.Id}>
-                  <a
-                    href={file.FileRef}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {file.FileLeafRef}
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteUploadedFile(file)}
-                  >
-                    ✖
-                  </button>
+    <div className='MainUplodForm' style={{ margin: "5px 0px" }}>
+      <div className='row'>
+        <div className='col-md-12'>
+          <div className='Main-Boxpoup'>
+            <div className="bordered">
+              <a><img src={logo} /></a>
+              <h1>Edit Request Form</h1>
+            </div>
+            <div className="approval-ribbon">
+              <div className="ribbon-step approved">{"Initiator"}</div>
+              {approverDetails.map((approver, index) => (
+                <div key={index} className="ribbon-step approver">
+                  {approver.Name}
                 </div>
               ))}
             </div>
-          )}
-          {supportingFiles.length > 0 && (
-            <div style={{ marginTop: "10px" }}>
-              <b>New Files</b>
-              <ul>
-                {supportingFiles.map((file, index) => (
-                  <li
-                    key={index}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <span>{file.name}</span>
+            <div className='borderedbox'>
+              <div className="heading1">
+                <label>Requestor Information</label>
+              </div>
+              <div className='main-formcontainer'>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Request By</label>
+                    <input type="text" className="form-control textfield" value={header.EmployeeName} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Department </label>
+                    <input type="text" className="form-control textfield" value={header.department} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Reporting Manager </label>
+                    <input type="text" className="form-control textfield" value={header.reportingManager}
+                      onChange={(e) => setHeader({ ...header, reportingManager: e.target.value })} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Name of Vendor <span className='Mantorystar'>*</span></label>
+                    <select value={selectedVendor} className="form-control textfield"
+                      onChange={(e) => setSelectedVendor(e.target.value)}>
+                      <option value="">--Select--</option>
+                      {vendors.map((v) => (
+                        <option key={v.Id} value={v.Id}>
+                          {v.VendorName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Address of Vendor <span className='Mantorystar'>*</span></label>
+                    <textarea className="form-control textfield"
+                      value={vendors.find((v) => v.Id === Number(selectedVendor))?.Address || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Location <span className='Mantorystar'>*</span></label>
+                    <select value={selectedLocation} className="form-control textfield"
+                      onChange={(e) => setSelectedLocation(e.target.value)}>
+                      <option value="">--Select--</option>
+                      {locations.map((loc) => (
+                        <option key={loc.Id} value={loc.Id}>
+                          {loc.City}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items <span className='Mantorystar'>*</span></label>
+                    <input
+                      type="text" className="form-control textfield"
+                      value={noOfItems}
+                      onChange={(e) => {
+                        const value = e.target.value;
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSupportingFiles((prev) =>
-                          prev.filter((_, i) => i !== index)
-                        )
-                      }
-                    >
-                      ✖
+                        if (/^\d*$/.test(value)) {
+                          setNoOfItems(value);
+
+                          if (value === "") return;
+
+                          let count = Number(value);
+
+                          if (count <= 0) count = 1;
+
+                          const newItems = Array.from({ length: count }, (_, i) => {
+                            return (
+                              items[i] || {
+                                sr: i + 1,
+                                description: "",
+                                quantity: "",
+                                approx: "",
+                                date: "",
+                                purpose: "",
+                              }
+                            );
+                          });
+
+                          setItems(newItems);
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>UOM </label>
+                    <select value={uom} className="form-control textfield" onChange={(e) => setUom(e.target.value)}>
+                      <option value="">--Select--</option>
+                      <option value="Box">Box</option>
+                      <option value="Packets">Packets</option>
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items in box <span className="Mantorystar"></span></label>
+                    <input type="text" className="form-control textfield"
+                      value={itemsPerBox} onChange={(e) => { const value = e.target.value; if (/^\d*$/.test(value)) { setItemsPerBox(value); } }} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Returnable</label>
+                    <select value={returnable} className="form-control textfield" onChange={(e) => setReturnable(e.target.value)}>
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Supporting documents </label>
+                    <input
+                      type="file" className="form-control textfield"
+                      multiple
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          setSupportingFiles((prev) => [
+                            ...prev,
+                            ...Array.from(e.target.files),
+                          ]);
+                        }
+                      }}
+                    />
+                    <br />
+
+                    {uploadedFiles.length > 0 && (
+                      <div>
+                        <b>Existing Files</b>
+
+                        {uploadedFiles.map((file) => (
+                          <div key={file.Id}>
+                            <a
+                              href={file.FileRef}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {file.FileLeafRef}
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteUploadedFile(file)}
+                            >
+                              ✖
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {supportingFiles.length > 0 && (
+                      <div style={{ marginTop: "10px" }}>
+                        <b>New Files</b>
+                        <ul>
+                          {supportingFiles.map((file, index) => (
+                            <li
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span>{file.name}</span>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setSupportingFiles((prev) =>
+                                    prev.filter((_, i) => i !== index)
+                                  )
+                                }
+                              >
+                                ✖
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Sr.No</th>
+                            <th>Description of Material</th>
+                            <th>Quantity</th>
+                            <th>Approximate Value</th>
+                            <th>Probable Date</th>
+                            <th>Purpose for Movement</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {items.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>
+                                <input
+                                  value={item.description}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].description = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  value={item.quantity}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    const updated = [...items];
+                                    updated[index].quantity = value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  value={item.approx}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, "");
+                                    const updated = [...items];
+                                    updated[index].approx = value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+
+                              <td>
+                                <input
+                                  type="date"
+                                  value={item.date}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].date = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  value={item.purpose}
+                                  onChange={(e) => {
+                                    const updated = [...items];
+                                    updated[index].purpose = e.target.value;
+                                    setItems(updated);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Workflow & Comment</label>
+              </div>
+              <div className='main-formcontainer'>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Action By</th>
+                            <th>Action Taken</th>
+                            <th>Date</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {workflow.length === 0 ? (
+                            <tr>
+                              <td colSpan={4}>No Workflow History</td>
+                            </tr>
+                          ) : (
+                            workflow.map((w: any, index: number) => (
+                              <tr key={index}>
+                                <td>{w.CurrentApprover}</td>
+                                <td>{w.ActionTaken}</td>
+                                <td>{new Date(w.Date).toLocaleDateString("en-IN")}</td>
+                                <td>{w.Comment || "-"}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <label className='font'>Remarks </label>
+                    <textarea value={remarks} className="form-control textfield"
+                      onChange={(e) => setRemarks(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+              <div className='row mb-20 mt-20'>
+                <div className='col-md-12'>
+                  <div className="button-container">
+                    <button className="submit-btn" onClick={handleUpdate} disabled={isSubmitLoading}>
+                      {isSubmitLoading ? "Saving..." : "Submit"}
                     </button>
-                  </li>
-                ))}
-              </ul>
+                    <button className="draft-btn" onClick={handleSaveDraft} disabled={isDraftLoading}>
+                      {isDraftLoading ? "Saving..." : "Save as Draft"}
+                    </button>
+                    <button className="Exit-btn" onClick={() => history.push("/")} >
+                      Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-
+          </div>
         </div>
-      </div>
-
-      <div className="buttons">
-        <button
-          className="draft"
-          onClick={handleSaveDraft}
-          disabled={isDraftLoading}
-        >
-          {isDraftLoading ? "Saving..." : "Save as Draft"}
-        </button>
-
-        <button
-          className="submit"
-          onClick={handleUpdate}
-          disabled={isSubmitLoading}
-
-        >
-          {isSubmitLoading ? "Saving..." : "Submit"}
-        </button>
-
-        <button
-          className="exit"
-          onClick={() => history.push("/")}
-        >
-          Exit
-        </button>
       </div>
     </div>
   );

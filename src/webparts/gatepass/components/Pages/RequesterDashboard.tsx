@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
 import GatePass from "../../service/BAL/GatePass";
 import type { IGatepassProps } from "../IGatepassProps";
 import { FaEdit } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
+import { useHistory, Link } from "react-router-dom";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
   const [searchText, setSearchText] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -66,38 +67,30 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
   }, [searchText]);
 
   return (
-    <div className="main">
+    <div className="Dashboardbox">
+      {/* Header */}
       <div className="header">
         <div className="left-banner">
           <div className="logo-text">
-            <h2>Requester Dashboard</h2>
+            <h2> Requester Dashboard </h2>
           </div>
         </div>
       </div>
-
-      <div className="mainsecond">
-        <input
-          placeholder="Search"
-          className="form-control"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-
-        {/* <select className="formtext-control">
-          <option>All</option>
-          <option>Pending for Approval</option>
-          <option>Approved</option>
-          <option>Rejected</option>
-          <option>Send Back</option>
-          <option>Draft</option>
-        </select> */}
-
-        <button className="newBtn" onClick={() => history.push("/NewRequest")}>
-          New Request
-        </button>
+      <div className='col-md-12 headersecond'>
+        <div>
+          <input type="text" placeholder="Search..."
+            className="form-control" style={{ width: "250px" }}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+        <div className='Dashbaordcreatebutton'>
+          <Link to="/NewRequest" className='create-button'>New Request</Link>
+        </div>
       </div>
 
-      <main className="Main-Dash">
+
+      <main className="Main-Dash mx-2">
         <div className="table-vert-scroll">
           <table className="custom-table">
             <thead>
@@ -150,6 +143,12 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
           <div className="pagination">
             <button
               disabled={currentPage === 1}
+              style={{
+                backgroundColor: "#fff",
+                border: "1px solid #000 !important",
+                marginRight: "5px",
+                opacity: currentPage === 1 ? 0.5 : 1,
+              }}
               onClick={() => setCurrentPage((prev) => prev - 1)}
             >
               Previous
@@ -161,6 +160,12 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
 
             <button
               disabled={currentPage === totalPages || totalPages === 0}
+              style={{
+                backgroundColor: "#fff",
+                border: "1px solid #000 !important",
+                marginRight: "5px",
+                opacity: currentPage === 1 ? 0.5 : 1,
+              }}
               onClick={() => setCurrentPage((prev) => prev + 1)}
             >
               Next
