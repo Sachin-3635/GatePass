@@ -5,6 +5,9 @@ import { FaEdit } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { useHistory, Link } from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
+import edit from "../../assets/Pencil.png";
+import view from "../../assets/Eye.png";
+
 const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
   const [searchText, setSearchText] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -99,7 +102,7 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
                 <th>VENDOR NAME</th>
                 <th>LOCATION</th>
                 <th>NO OF ITEMS</th>
-                <th>GST INDICATOR</th>
+                {/* <th>Gatepass is returnable or not ?</th> */}
                 <th>STATUS</th>
                 <th>ACTION</th>
               </tr>
@@ -118,21 +121,22 @@ const RequesterDashboard: React.FC<IGatepassProps> = (props) => {
                     <td>{item.VendorName?.VendorName}</td>
                     <td>{item.City?.City}</td>
                     <td>{item.NoItems}</td>
-                    <td>{item.GatePassReturnable}</td>
+                    {/* <td>{item.GatePassReturnable}</td> */}
                     <td>{item.Status}</td>
                     <td>
                       {canEdit(item.Status) && (
-                        <button
+                        <a
                           onClick={() => history.push(`/EditForm/${item.Id}`)}
                         >
-                          <FaEdit />
-                        </button>
+                          <img src={edit} width={15} />
+                        </a>
                       )}
-                      <button
+                      &nbsp;&nbsp;
+                      <a
                         onClick={() => history.push(`/ViewForm/${item.Id}`)}
                       >
-                        <GrView />
-                      </button>
+                        <img src={view} width={15} />
+                      </a>
                     </td>
                   </tr>
                 ))

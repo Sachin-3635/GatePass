@@ -167,7 +167,7 @@ const ViewForm: React.FC<IGatepassProps> = (props) => {
                     <a>Click here to view Authorised Signatories</a>
                   </div>
                   <div className='col-md-4'>
-                    <label className='font'>Supporting documents </label>
+                    <label className='font' style={{ display: "block" }}>Supporting documents </label>
                     {uploadedFiles.length === 0 ? (
                       <span>No attachments</span>
                     ) : (

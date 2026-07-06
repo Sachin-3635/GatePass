@@ -5,6 +5,9 @@ import "../Pages/Css/Sidebars.scss";
 import { useHistory } from "react-router-dom";
 import { GrView, GrEdit } from "react-icons/gr";
 
+import edit from "../../assets/Pencil.png";
+import view from "../../assets/Eye.png";
+
 const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
   const [searchText, setSearchText] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -120,7 +123,7 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
                 <th>VENDOR NAME</th>
                 <th>LOCATION</th>
                 <th>NO OF ITEMS</th>
-                <th>GST INDICATOR</th>
+                {/* <th>Gatepass is returnable or not ?</th> */}
                 <th>STATUS</th>
                 <th>APPROVE</th>
                 <th>View</th>
@@ -141,23 +144,23 @@ const ApproverDashboard: React.FC<IGatepassProps> = (props) => {
                     <td>{item.VendorName?.VendorName}</td>
                     <td>{item.City?.City}</td>
                     <td>{item.NoItems}</td>
-                    <td>{item.GatePassReturnable}</td>
+                    {/* <td>{item.GatePassReturnable}</td> */}
                     <td>{item.Status}</td>
                     <td>
-                      <button
+                      <a
                         className="newBtn"
                         onClick={() => history.push(`/ApproverForm/${item.Id}`)}
                       >
-                        <GrEdit />
-                      </button>
+                        <img src={edit} width={15} />
+                      </a>
                     </td>
                     <td>
-                      <button
+                      <a
                         className="newBtn"
                         onClick={() => history.push(`/ViewForm/${item.Id}`)}
                       >
-                        <GrView />
-                      </button>
+                        <img src={view} width={15} />
+                      </a>
                     </td>
                   </tr>
                 ))

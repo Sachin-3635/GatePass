@@ -273,7 +273,8 @@
 
 .bordered {
   align-items: center;
-  background: linear-gradient(180deg, #332986, #0079c2);
+  background-color: #223f99;
+  // background: linear-gradient(180deg, #332986, #0079c2);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   display: flex;
@@ -312,7 +313,8 @@
 
 .heading1 {
   align-items: center;
-  background: linear-gradient(180deg, #332986, #0079c2);
+  background-color: #223f99;
+  // background: linear-gradient(180deg, #332986, #0079c2);
   clip-path: polygon(0 0, 60% 0, 100% 100%, 0 100%);
   color: #fff;
   display: flex;

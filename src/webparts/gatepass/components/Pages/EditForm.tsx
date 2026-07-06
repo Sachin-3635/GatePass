@@ -762,12 +762,16 @@ const EditForm: React.FC<IGatepassProps> = (props) => {
                 </div>
                 <div className='row mb-20'>
                   <div className='col-md-4'>
-                    <label className='font'>Returnable</label>
+                    <label className='font'>Gatepass is returnable or not ?</label>
                     <select value={returnable} className="form-control textfield" onChange={(e) => setReturnable(e.target.value)}>
                       <option value="">--Select--</option>
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font' style={{ display: "block" }}>Authorised Signatory <span className="Mantorystar">*</span> </label>
+                    <a>Click here to view Authorised Signatories</a>
                   </div>
                   <div className='col-md-4'>
                     <label className='font'>Supporting documents </label>
