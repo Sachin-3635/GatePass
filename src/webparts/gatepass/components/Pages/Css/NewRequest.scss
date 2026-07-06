@@ -358,11 +358,12 @@
   color: red;
 }
 
-.button-container{
+.button-container {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
+
 .submit-btn {
   padding: 8px 16px;
   background-color: #008000;
@@ -393,5 +394,17 @@
   font-size: 12px;
   border-radius: 3px;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.reject-btn {
+  background: #b31919;
+  border: 1px solid #b31919;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0 5px;
+  padding: 8px 16px;
   text-decoration: none;
 }

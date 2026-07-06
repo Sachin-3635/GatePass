@@ -5,6 +5,8 @@ import "../Pages/Css/NewRequest.scss";
 import GatePass from "../../service/BAL/GatePass";
 import AuthorisedSignatories from "../../service/BAL/AuthorisedSignatories";
 import SPCRUDOPS from "../../service/DAL/spcrudops";
+import logo from "../../assets/nbclatest.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface IApproverDetails {
   Id: number;
@@ -381,246 +383,230 @@ const ApproverForm: React.FC<IGatepassProps> = (props) => {
   }, [id]);
 
   return (
-    <>
-      <h3 className="section-title">Approver Form</h3>
-      <div className="approval-ribbon">
-        <div className="ribbon-step approved">{"Initiator"}</div>
-        {approverDetails.map((step, index) => {
-          let className = "waiting";
-
-          if (step.Status === "initiator") className = "initiator";
-          if (step.Status === "Approved") className = "approved";
-          if (step.Status === "current") className = "current";
-
-          return (
-            <div key={index} className={`ribbon-step ${className}`}>
-              {step.Name}
+    <div className='MainUplodForm' style={{ margin: "5px 0px" }}>
+      <div className='row'>
+        <div className='col-md-12'>
+          <div className='Main-Boxpoup'>
+            <div className="bordered">
+              <a><img src={logo} /></a>
+              <h1>Approver Form</h1>
             </div>
-          );
-        })}
-        {/* {approverDetails.map((approver, index) => (
-          <div key={index} className="ribbon-step approver">
-            {approver.Name}
-          </div>
-        ))} */}
-      </div>
-      <div className="new-request">
-        <h3 className="page-title">Request Details</h3>
+            <div className="approval-ribbon">
+              <div className="ribbon-step approved">{"Initiator"}</div>
+              {approverDetails.map((step, index) => {
+                let className = "waiting";
 
-        <div className="section-title">Request Information</div>
+                if (step.Status === "initiator") className = "initiator";
+                if (step.Status === "Approved") className = "approved";
+                if (step.Status === "current") className = "current";
 
-        <div className="form-grid">
-          <div>
-            <label>Request By</label>
-            <input type="text" value={request?.EmployeeName || ""} readOnly />
-          </div>
-
-          <div>
-            <label>Department</label>
-            <input type="text" value={request?.Department || ""} readOnly />
-          </div>
-
-          <div>
-            <label>Reporting Manager</label>
-            {/* <input value={request?.ReportingManagerId || ""} readOnly /> */}
-            <input value={request?.ReportingManager?.Title || ""} readOnly />
-          </div>
-
-          <div>
-            <label>Name of Vendor *</label>
-            <input
-              type="text"
-              value={request?.VendorName?.VendorName || ""}
-              readOnly
-            />
-          </div>
-
-          <div>
-            <label>Address of Vendor *</label>
-            <input type="text" value={request?.Address || ""} readOnly />
-          </div>
-
-          <div>
-            <label>Location *</label>
-            <input type="text" value={request?.City?.City || ""} readOnly />
-          </div>
-
-          <div>
-            <label>No of Items *</label>
-            <input type="text" value={request?.NoItems || ""} readOnly />
-          </div>
-
-          <div>
-            <label>UOM</label>
-            <input type="text" value={request?.UOM || ""} readOnly />
-          </div>
-
-          <div>
-            <label>No of Items in box *</label>
-            <input type="text" value={request?.NoBox || ""} readOnly />
-          </div>
-
-          <div>
-            <label>Gatepass is returnable or not ?</label>
-
-            <input
-              type="text"
-              value={request?.GatePassReturnable || ""}
-              readOnly
-            />
-          </div>
-        </div>
-
-        <div className="authorized">
-          <label>Authorised Signatory *</label>
-
-          <a>Click here to view Authorised Signatories</a>
-        </div>
-
-        <table className="item-table">
-          <thead>
-            <tr>
-              <th>Sr.No</th>
-              <th>Description of Material</th>
-              <th>Quantity</th>
-              <th>Approx Value</th>
-              <th>Probable Date</th>
-              <th>Purpose for Movement</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {items.length === 0 ? (
-              <tr>
-                <td colSpan={6}>No Items</td>
-              </tr>
-            ) : (
-              items.map((item, index) => (
-                <tr key={item.Id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <input value={item.DescriptionMaterial || ""} readOnly />
-                  </td>
-                  <td>
-                    <input value={item.Quantity || ""} readOnly />
-                  </td>
-                  <td>
-                    <input value={item.ApproximateValue || ""} readOnly />
-                  </td>
-                  {/* <td><input value={item.ProbableDate || ""} readOnly /></td> */}
-                  <td>
-                    <input
-                      value={
-                        item.ProbableDate
-                          ? new Date(item.ProbableDate).toLocaleDateString(
-                              "en-IN",
-                            )
-                          : ""
-                      }
-                      readOnly
-                    />
-                  </td>
-                  <td>
-                    <input value={item.PurposeMovement || ""} readOnly />
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-
-        <div className="authorized">
-          Supporting documents
-          {uploadedFiles.length === 0 ? (
-            <span>No attachments</span>
-          ) : (
-            uploadedFiles.map((file) => (
-              <div key={file.Id}>
-                <a
-                  href={`${file.FileRef}?web=1`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {file.FileLeafRef}
-                </a>
+                return (
+                  <div key={index} className={`ribbon-step ${className}`}>
+                    {step.Name}
+                  </div>
+                );
+              })}
+            </div>
+            <div className='borderedbox'>
+              <div className="heading1">
+                <label>Requestor Information</label>
               </div>
-            ))
-          )}
-        </div>
-        <br></br>
+              <div className='main-formcontainer'>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Request By</label>
+                    <input type="text" className="form-control textfield" value={request?.EmployeeName || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Department </label>
+                    <input type="text" className="form-control textfield" value={request?.Department || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Reporting Manager </label>
+                    <input type="text" className="form-control textfield" value={request?.ReportingManager?.Title || ""} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Name of Vendor <span className='Mantorystar'>*</span></label>
+                    <input type="text" className="form-control textfield" value={request?.VendorName?.VendorName || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Address of Vendor <span className='Mantorystar'>*</span></label>
+                    <input type="text" className="form-control textfield" value={request?.Address || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>Location <span className='Mantorystar'>*</span></label>
+                    <input type="text" className="form-control textfield" value={request?.City?.City || ""} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items <span className='Mantorystar'>*</span></label>
+                    <input type="text" className="form-control textfield" value={request?.NoItems || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>UOM </label>
+                    <input type="text" className="form-control textfield" value={request?.UOM || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font'>No of Items in box <span className="Mantorystar"></span></label>
+                    <input type="text" className="form-control textfield" value={request?.NoBox || ""} />
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-4'>
+                    <label className='font'>Gatepass is returnable or not ?</label>
+                    <input type="text" className="form-control textfield" value={request?.GatePassReturnable || ""} />
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font' style={{ display: "block" }}>Authorised Signatory <span className="Mantorystar">*</span> </label>
+                    <a>Click here to view Authorised Signatories</a>
+                  </div>
+                  <div className='col-md-4'>
+                    <label className='font' style={{ display: "block" }}>Supporting documents</label>
+                    {uploadedFiles.length === 0 ? (
+                      <span>No attachments</span>
+                    ) : (
+                      uploadedFiles.map((file) => (
+                        <div key={file.Id}>
+                          <a
+                            href={`${file.FileRef}?web=1`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {file.FileLeafRef}
+                          </a>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Sr.No</th>
+                            <th>Description of Material</th>
+                            <th>Quantity</th>
+                            <th>Approx Value</th>
+                            <th>Probable Date</th>
+                            <th>Purpose for Movement</th>
+                          </tr>
+                        </thead>
 
-        <div className="section-title" style={{ width: "30%" }}>
-          Workflow and Comment History
-        </div>
-        <br></br>
-        <table className="item-table mt-4">
-          <thead>
-            <tr>
-              <th>Action By</th>
-              <th>Action Taken</th>
-              <th>Date</th>
-              <th>Remark</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {workflow.length === 0 ? (
-              <tr>
-                <td colSpan={4}>No Workflow History</td>
-              </tr>
-            ) : (
-              workflow.map((w: any, index: number) => (
-                <tr key={index}>
-                  <td>{w.CurrentApprover}</td>
-                  <td>{w.ActionTaken}</td>
-                  <td>{new Date(w.Date).toLocaleDateString("en-IN")}</td>
-                  <td>{w.Comment || "-"}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-
-        <div className="bottom-area">
-          <div>
-            <label>Approver Remarks</label>
-
-            <textarea
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-            />
+                        <tbody>
+                          {items.length === 0 ? (
+                            <tr>
+                              <td colSpan={6}>No Items</td>
+                            </tr>
+                          ) : (
+                            items.map((item, index) => (
+                              <tr key={item.Id}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <input value={item.DescriptionMaterial || ""} readOnly />
+                                </td>
+                                <td>
+                                  <input value={item.Quantity || ""} readOnly />
+                                </td>
+                                <td>
+                                  <input value={item.ApproximateValue || ""} readOnly />
+                                </td>
+                                {/* <td><input value={item.ProbableDate || ""} readOnly /></td> */}
+                                <td>
+                                  <input
+                                    value={
+                                      item.ProbableDate
+                                        ? new Date(item.ProbableDate).toLocaleDateString(
+                                          "en-IN",
+                                        )
+                                        : ""
+                                    }
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input value={item.PurposeMovement || ""} readOnly />
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Workflow & Comment</label>
+              </div>
+              <div className='main-formcontainer'>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Action By</th>
+                            <th>Action Taken</th>
+                            <th>Date</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {workflow.length === 0 ? (
+                            <tr>
+                              <td colSpan={4}>No Workflow History</td>
+                            </tr>
+                          ) : (
+                            workflow.map((w: any, index: number) => (
+                              <tr key={index}>
+                                <td>{w.CurrentApprover}</td>
+                                <td>{w.ActionTaken}</td>
+                                <td>{new Date(w.Date).toLocaleDateString("en-IN")}</td>
+                                <td>{w.Comment || "-"}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div className='row mb-20'>
+                  <div className='col-md-12'>
+                    <label className='font'>Approver Remarks </label>
+                    <textarea value={remarks} className="form-control textfield"
+                      onChange={(e) => setRemarks(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+              <div className='row mb-20 mt-20'>
+                <div className='col-md-12'>
+                  <div className="button-container">
+                    <button className="submit-btn" onClick={handleApprove} disabled={isSaving}>
+                      Approve
+                    </button>
+                    <button className="draft-btn" onClick={handleSendBack} disabled={isSaving}>
+                      Send Back
+                    </button>
+                    <button className="reject-btn" onClick={handleReject} disabled={isSaving}>
+                      Reject
+                    </button>
+                    <button className="Exit-btn" onClick={() => history.push("/ApproverDashboard")} >
+                      Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="buttons">
-          <button
-            className="submit"
-            onClick={handleApprove}
-            disabled={isSaving}
-          >
-            Approve
-          </button>
-
-          <button
-            className="draft"
-            onClick={handleSendBack}
-            disabled={isSaving}
-          >
-            Send Back
-          </button>
-          <button className="reject" onClick={handleReject} disabled={isSaving}>
-            Reject
-          </button>
-
-          <button
-            className="exit"
-            onClick={() => history.push("/ApproverDashboard")}
-          >
-            Exit
-          </button>
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 
